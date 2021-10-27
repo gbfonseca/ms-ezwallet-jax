@@ -1,5 +1,5 @@
-from src.domain.usecases.scraper import Scraper
-from src.presentation.protocols.controller import Controller
+from ms_ezwallet_jax.src.domain.usecases.scraper import Scraper
+from ms_ezwallet_jax.src.presentation.protocols.controller import Controller
 
 
 class GetActions(Controller):
@@ -10,4 +10,3 @@ class GetActions(Controller):
     def handle(self, http_request):
         actions = self.scraper.get_data(http_request['body']['url'])
         return actions
-
