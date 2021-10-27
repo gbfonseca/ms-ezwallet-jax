@@ -1,7 +1,9 @@
 from ms_ezwallet_jax.src.infra.scraper.selenium import ScraperAdapter
+from ms_ezwallet_jax.src.infra.html_parser.beautifulsoup import BeautifulSoupAdapter
 from ms_ezwallet_jax.src.presentation.controllers.actions.get_actions import GetActions
 
-scraper_adapter = ScraperAdapter()
+beautifulsoup_adapter = BeautifulSoupAdapter()
+scraper_adapter = ScraperAdapter(html_parser=beautifulsoup_adapter)
 get_actions = GetActions(scraper_adapter)
 
 http_request = {
