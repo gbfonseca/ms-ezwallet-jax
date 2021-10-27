@@ -27,4 +27,5 @@ def convert_dict_keys_to_english(data: dict):
 
 
 dict_of_actions = convert_dict_keys_to_english(get_actions())
+print(dict_of_actions)
 driver.quit()
