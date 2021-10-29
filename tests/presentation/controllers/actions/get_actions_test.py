@@ -68,7 +68,6 @@ def make_sut():
 
 def test_success_scrap(mocker):
     sut = make_sut()
-    spy = mocker.spy(sut, 'handle')
     http_request = {
         'body': {
             'url': 'https://fundamentus.com.br/resultado.php'
