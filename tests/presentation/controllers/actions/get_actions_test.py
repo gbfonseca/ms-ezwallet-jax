@@ -66,7 +66,7 @@ def make_sut():
     return GetActions(scraper_stub)
 
 
-def test_param(mocker):
+def test_success_scrap(mocker):
     sut = make_sut()
     spy = mocker.spy(sut, 'handle')
     http_request = {
