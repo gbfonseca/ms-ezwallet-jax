@@ -25,4 +25,5 @@ class ScraperAdapter(Scraper):
         html_content = element.get_attribute('outerHTML')
         table = self.html_parser.parseHtml(html_content)
         df = self.data_manipulation.to_dict(str(table))
+        driver.close()
         return df
