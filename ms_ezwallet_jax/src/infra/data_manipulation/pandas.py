@@ -1,8 +1,6 @@
 from ms_ezwallet_jax.src.domain.usecases.data_manipulation import DataManipulation
 from .pandas_helper import pandas_helper
 import pandas as pd
-import locale
-from locale import atof
 
 
 class DataManipulationAdapter(DataManipulation):
@@ -11,11 +9,7 @@ class DataManipulationAdapter(DataManipulation):
 
         df = pandas_helper.remove_percent(df)
 
-        df_papel = df['Papel']
-        df.drop(df.columns[0], axis=1, inplace=True)
-        locale.setlocale(locale.LC_NUMERIC, '')
-        df = df.applymap(lambda value: atof(str(value)))
-        df['Papel'] = df_papel
+        df = pandas_helper.convert_fields_to_number(df)
 
         df['Cotação'] = df['Cotação'] / 100
 
