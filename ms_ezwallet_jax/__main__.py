@@ -5,6 +5,7 @@ from ms_ezwallet_jax.src.presentation.controllers.actions.get_actions import Get
 from ms_ezwallet_jax.src.infra.db.mongodb.repositories.actions.actions import ActionsRepository
 from ms_ezwallet_jax.src.infra.db.mongodb.helpers.mongo_helper import mongo_helper
 from ms_ezwallet_jax.src.data.usecases.db_add_actions_adapter import DbAddActionsAdapter
+from ms_ezwallet_jax.src.main.config.configuration import configuration
 
 beautifulsoup_adapter = BeautifulSoupAdapter()
 data_manipulation_adapter = DataManipulationAdapter()
@@ -17,11 +18,11 @@ get_actions = GetActions(scraper_adapter, db_add_actions_adapter)
 
 http_request = {
     'body': {
-        'url': 'https://fundamentus.com.br/resultado.php'
+        'url': configuration['SCRAP_URL']
     }
 }
 
 
-mongo_helper.connect('mongodb://localhost:27017')
+mongo_helper.connect(configuration['DATABASE_URL'])
 
 data = get_actions.handle(http_request)
