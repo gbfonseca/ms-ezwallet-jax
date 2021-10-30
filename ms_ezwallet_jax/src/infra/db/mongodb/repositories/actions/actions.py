@@ -6,5 +6,10 @@ class ActionsRepository(AddActionsRepository):
 
     def add(self, data: list):
         actions_collection = mongo_helper.get_collection('actions')
-        actions = actions_collection.insert(data)
-        return actions
+        # actions_collection.create_index('Papel')
+        saved_actions = []
+        for action in data:
+            saved_actions.append(actions_collection.find_and_modify(
+                {'Papel': action['Papel']}, {'$set': action}, upsert=True))
+
+        return saved_actions
