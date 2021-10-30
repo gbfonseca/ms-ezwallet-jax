@@ -21,5 +21,9 @@ class PandasHelper():
         df['Papel'] = df_papel
         return df
 
+    def convert_price_to_correct_value(self, df: DataFrame) -> DataFrame:
+        df['Cotação'] = df['Cotação'] / 100
+        return df
+
 
 pandas_helper = PandasHelper()

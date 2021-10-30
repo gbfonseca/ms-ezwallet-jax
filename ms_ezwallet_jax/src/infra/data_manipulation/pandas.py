@@ -11,7 +11,7 @@ class DataManipulationAdapter(DataManipulation):
 
         df = pandas_helper.convert_fields_to_number(df)
 
-        df['Cotação'] = df['Cotação'] / 100
+        df = pandas_helper.convert_price_to_correct_value(df)
 
         df = df.rename(
             columns={'Div.Yield': 'div_yield', 'P/Cap.Giro': 'p/cap_giro', 'P/Ativ Circ.Liq': 'p/ativ_circ_liq', 'Mrg. Líq.': 'mrg_liq', 'Liq. Corr.': 'liq_corr', 'Liq.2meses': 'liq_2_meses', 'Patrim. Líq': 'patrim_liq', 'Dív.Brut/ Patrim.': 'div_brut/patrim', 'Cresc. Rec.5a': 'cresc_rec_5a'})
