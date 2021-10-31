@@ -166,3 +166,18 @@ def test_get_actions_return_500_if_scraper_throws(mocker: MockFixture):
     http_response = sut.handle(http_request)
 
     assert http_response['status_code'] == 500
+
+
+def test_get_actions_return_500_if_add_actions_throws(mocker: MockFixture):
+    [sut, _, add_actions_stub] = make_sut()
+    spy = mocker.spy(add_actions_stub, 'add')
+    spy.side_effect = Exception()
+    http_request = {
+        'body': {
+            'url': 'https://fundamentus.com.br/resultado.php'
+        }
+    }
+
+    http_response = sut.handle(http_request)
+
+    assert http_response['status_code'] == 500
