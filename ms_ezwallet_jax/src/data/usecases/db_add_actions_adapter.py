@@ -8,4 +8,4 @@ class DbAddActionsAdapter(AddActions):
 
     def add(self, data: list):
         actions = self.add_actions_repository.add(data)
-        return data
+        return actions

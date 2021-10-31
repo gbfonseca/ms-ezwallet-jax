@@ -8,7 +8,7 @@ def make_add_actions_repository() -> AddActionsRepository:
         def add(self, data: list):
             return [
                 {
-
+                    "_id": 'any_id',
                     "Papel": "BBAS3",
                     "Cotação": 2917,
                     "P/L": 526,
@@ -74,7 +74,7 @@ def test_db_add_actions_adapter_returns_an_actions_on_success(mocker: MockFixtur
 
     assert response == [
         {
-
+            "_id": 'any_id',
             "Papel": "BBAS3",
             "Cotação": 2917,
             "P/L": 526,
