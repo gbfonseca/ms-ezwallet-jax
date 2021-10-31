@@ -217,3 +217,42 @@ def test_scraper_return_an_actions_on_success(mocker: MockFixture):
             "Cresc. Rec.5a": "0,79%"
         },
     ]
+
+
+def test_add_actions_return_an_actions_on_success(mocker: MockFixture):
+    [sut, _, add_actions_stub] = make_sut()
+    spy = mocker.spy(add_actions_stub, 'add')
+    http_request = {
+        'body': {
+            'url': 'https://fundamentus.com.br/resultado.php'
+        }
+    }
+
+    sut.handle(http_request)
+
+    assert spy.spy_return == [
+        {
+            "_id": "any_id",
+            "Papel": "BBAS3",
+            "Cotação": 2917,
+            "P/L": 526,
+            "P/VP": "062",
+            "PSR": "0000",
+            "Div.Yield": "6,88%",
+            "P/Ativo": 0,
+            "P/Cap.Giro": "000",
+            "P/EBIT": "000",
+            "P/Ativ Circ.Liq": 0,
+            "EV/EBIT": "000",
+            "EV/EBITDA": "000",
+            "Mrg Ebit": "0,00%",
+            "Mrg. Líq.": "0,00%",
+            "Liq. Corr.": 0,
+            "ROIC": "0,00%",
+            "ROE": "11,73%",
+            "Liq.2meses": "419.635.000,00",
+            "Patrim. Líq": "135.444.000.000,00",
+            "Dív.Brut/ Patrim.": "000",
+            "Cresc. Rec.5a": "0,79%"
+        },
+    ]
