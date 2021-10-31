@@ -1,6 +1,7 @@
 from ms_ezwallet_jax.src.presentation.controllers.actions.get_actions import GetActions
 from ms_ezwallet_jax.src.domain.usecases.scraper import Scraper
 from ms_ezwallet_jax.src.domain.usecases.add_actions import AddActions
+from pytest_mock import MockFixture
 
 mockReturn = [
     {
@@ -100,15 +101,15 @@ def make_scraper() -> Scraper:
     return ScraperStub()
 
 
-def make_sut() -> GetActions:
+def make_sut() -> [GetActions, Scraper, AddActions]:
     scraper_stub = make_scraper()
     add_actions_stub = make_add_actions()
     sut = GetActions(scraper_stub, add_actions_stub)
-    return sut
+    return [sut, scraper_stub, add_actions_stub]
 
 
-def test_success_scrap(mocker):
-    sut = make_sut()
+def test_success_scrap(mocker: MockFixture):
+    [sut, _, _] = make_sut()
     http_request = {
         'body': {
             'url': 'https://fundamentus.com.br/resultado.php'
@@ -124,12 +125,9 @@ def test_success_scrap(mocker):
     }
 
 
-def test_get_actions_called_with_correct_value(mocker):
-    # spy = mocker.patch(
-    #     'tests.presentation.controllers.actions.get_actions_test.ScraperStub.get_data')
-    spy = mocker.patch(
-        'ms_ezwallet_jax.src.presentation.controllers.actions.get_actions.GetActions.handle')
-    sut = make_sut()
+def test_get_actions_called_with_correct_value(mocker: MockFixture):
+    [sut, _, _] = make_sut()
+    spy = mocker.spy(sut, 'handle')
     http_request = {
         'body': {
             'url': 'https://fundamentus.com.br/resultado.php'
@@ -138,5 +136,18 @@ def test_get_actions_called_with_correct_value(mocker):
 
     response = sut.handle(http_request)
 
-    # assert response['status_code'] == 500
-    assert spy.called_with(http_request)
+    spy.assert_called_with(http_request)
+
+
+def test_scraper_called_with_correct_value(mocker: MockFixture):
+    [sut, scraper_stub, _] = make_sut()
+    spy = mocker.spy(scraper_stub, 'get_data')
+    http_request = {
+        'body': {
+            'url': 'https://fundamentus.com.br/resultado.php'
+        }
+    }
+
+    sut.handle(http_request)
+
+    spy.assert_called_with(http_request['body']['url'])
