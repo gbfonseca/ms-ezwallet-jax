@@ -30,39 +30,6 @@ mockReturn = [
 ]
 
 
-def make_add_actions() -> AddActions:
-    class AddActionsStub(AddActions):
-        def add(self, data: list):
-            fakeActionAdded = [
-                {
-                    "_id": 'any_id',
-                    "Papel": "BBAS3",
-                    "Cotação": 2917,
-                    "P/L": 526,
-                    "P/VP": "062",
-                    "PSR": "0000",
-                    "Div.Yield": "6,88%",
-                    "P/Ativo": 0,
-                    "P/Cap.Giro": "000",
-                    "P/EBIT": "000",
-                    "P/Ativ Circ.Liq": 0,
-                    "EV/EBIT": "000",
-                    "EV/EBITDA": "000",
-                    "Mrg Ebit": "0,00%",
-                    "Mrg. Líq.": "0,00%",
-                    "Liq. Corr.": 0,
-                    "ROIC": "0,00%",
-                    "ROE": "11,73%",
-                    "Liq.2meses": "419.635.000,00",
-                    "Patrim. Líq": "135.444.000.000,00",
-                    "Dív.Brut/ Patrim.": "000",
-                    "Cresc. Rec.5a": "0,79%"
-                }
-            ]
-            return fakeActionAdded
-    return AddActionsStub()
-
-
 class ScraperStub(Scraper):
 
     def get_data(self, url: str):
@@ -91,6 +58,41 @@ class ScraperStub(Scraper):
                 "Cresc. Rec.5a": "0,79%"
             },
         ]
+
+
+class AddActionsStub(AddActions):
+    def add(self, data: list):
+        fakeActionAdded = [
+            {
+                "_id": 'any_id',
+                "Papel": "BBAS3",
+                "Cotação": 2917,
+                "P/L": 526,
+                "P/VP": "062",
+                "PSR": "0000",
+                "Div.Yield": "6,88%",
+                "P/Ativo": 0,
+                "P/Cap.Giro": "000",
+                "P/EBIT": "000",
+                "P/Ativ Circ.Liq": 0,
+                "EV/EBIT": "000",
+                "EV/EBITDA": "000",
+                "Mrg Ebit": "0,00%",
+                "Mrg. Líq.": "0,00%",
+                "Liq. Corr.": 0,
+                "ROIC": "0,00%",
+                "ROE": "11,73%",
+                "Liq.2meses": "419.635.000,00",
+                "Patrim. Líq": "135.444.000.000,00",
+                "Dív.Brut/ Patrim.": "000",
+                "Cresc. Rec.5a": "0,79%"
+            }
+        ]
+        return fakeActionAdded
+
+
+def make_add_actions() -> AddActions:
+    return AddActionsStub()
 
 
 def make_scraper() -> Scraper:
@@ -123,8 +125,10 @@ def test_success_scrap(mocker):
 
 
 def test_get_actions_called_with_correct_value(mocker):
+    # spy = mocker.patch(
+    #     'tests.presentation.controllers.actions.get_actions_test.ScraperStub.get_data')
     spy = mocker.patch(
-        'tests.presentation.controllers.actions.get_actions_test.ScraperStub.get_data')
+        'ms_ezwallet_jax.src.presentation.controllers.actions.get_actions.GetActions.handle')
     sut = make_sut()
     http_request = {
         'body': {
