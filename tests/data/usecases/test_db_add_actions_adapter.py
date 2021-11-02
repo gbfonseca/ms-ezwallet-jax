@@ -201,4 +201,5 @@ def test_db_add_actions_adapter_returns_item_action_with_id(mocker: MockFixture)
 
     response = sut.add(data)
 
-    assert response[0]['_id']
+    for action in response:
+        assert action['_id']
