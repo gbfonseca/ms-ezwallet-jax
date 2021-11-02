@@ -27,3 +27,12 @@ def test_should_calls_DataManipulationAdapter_with_correct_value(mocker: MockFix
     sut.to_dict(data)
 
     spy.assert_called_with(data)
+
+
+def test_should_data_param_is_string(mocker: MockFixture):
+    sut = make_sut()
+    data = html_string
+
+    sut.to_dict(data)
+
+    assert type(data) == str
