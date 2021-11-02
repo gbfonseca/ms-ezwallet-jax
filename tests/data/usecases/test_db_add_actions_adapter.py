@@ -170,10 +170,8 @@ def test_db_add_actions_adapter_calls_with_correct_values(mocker: MockFixture):
     spy.assert_called_with(data)
 
 
-def test_db_add_actions_adapter_returns_an_actions_on_success(mocker: MockFixture):
+def test_db_add_actions_adapter_returns_item_action_with_id(mocker: MockFixture):
     [sut, _] = make_sut()
-
-    spy = mocker.spy(sut, 'add')
 
     data = [
         {
@@ -203,4 +201,4 @@ def test_db_add_actions_adapter_returns_an_actions_on_success(mocker: MockFixtur
 
     response = sut.add(data)
 
-    spy.assert_called_with(data)
+    assert response[0]['_id']
