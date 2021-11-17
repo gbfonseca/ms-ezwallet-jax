@@ -10,18 +10,17 @@ from ms_ezwallet_jax.src.main.config.configuration import configuration
 beautifulsoup_adapter = BeautifulSoupAdapter()
 data_manipulation_adapter = DataManipulationAdapter()
 
-scraper_adapter = ScraperAdapter(
-    beautifulsoup_adapter, data_manipulation_adapter)
+scraper_adapter = ScraperAdapter()
 actions_repository = ActionsRepository()
 db_add_actions_adapter = DbAddActionsAdapter(actions_repository)
-get_actions = GetActions(scraper_adapter, db_add_actions_adapter)
+get_actions = GetActions(scraper_adapter,
+                         beautifulsoup_adapter, data_manipulation_adapter, db_add_actions_adapter)
 
 http_request = {
     'body': {
         'url': configuration['SCRAP_URL']
     }
 }
-
 
 mongo_helper.connect(configuration['DATABASE_URL'])
 
