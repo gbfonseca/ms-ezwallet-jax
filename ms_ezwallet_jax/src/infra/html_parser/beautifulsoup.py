@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 
 class BeautifulSoupAdapter(HtmlParser):
-    def parse_html(self, html_content: str):
+    def parse_html(self, html_content: str) -> str:
         soup = BeautifulSoup(html_content, 'html.parser')
         table = soup.find(name="table")
-        return table
+        return str(table)
