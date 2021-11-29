@@ -19,3 +19,11 @@ def test_ensure_return_a_html_content_on_success(mocker: MockFixture):
     response = sut.get_data(URL)
 
     assert response == html_string
+
+
+def test_ensure_calls_get_data_with_correct_value(mocker: MockFixture):
+    sut = make_sut()
+    spy = mocker.spy(sut, 'get_data')
+    sut.get_data(URL)
+
+    spy.assert_called_with(URL)
