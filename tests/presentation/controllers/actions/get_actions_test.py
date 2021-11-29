@@ -161,18 +161,18 @@ def make_scraper() -> Scraper:
     return ScraperStub()
 
 
-def make_sut() -> [GetActions,  Scraper, HtmlParser, AddActions]:
+def make_sut() -> [GetActions,  Scraper, HtmlParser, DataManipulation, AddActions]:
     scraper_stub = make_scraper()
     html_parser_stub = make_html_parser()
     data_manipulation_stub = make_data_manipulation()
     add_actions_stub = make_add_actions()
     sut = GetActions(scraper_stub, html_parser_stub,
                      data_manipulation_stub, add_actions_stub)
-    return [sut, scraper_stub, html_parser_stub, add_actions_stub]
+    return [sut, scraper_stub, html_parser_stub, data_manipulation_stub, add_actions_stub]
 
 
 def test_success_scrap(mocker: MockFixture):
-    [sut, _, _, _] = make_sut()
+    [sut, _, _, _, _] = make_sut()
     http_request = {
         'body': {
             'url': 'https://fundamentus.com.br/resultado.php'
@@ -194,7 +194,7 @@ def test_success_scrap(mocker: MockFixture):
 
 
 def test_get_actions_called_with_correct_value(mocker: MockFixture):
-    [sut, _, _, _] = make_sut()
+    [sut, _, _, _, _] = make_sut()
     spy = mocker.spy(sut, 'handle')
     http_request = {
         'body': {
@@ -208,7 +208,7 @@ def test_get_actions_called_with_correct_value(mocker: MockFixture):
 
 
 def test_scraper_called_with_correct_value(mocker: MockFixture):
-    [sut, scraper_stub, _, _] = make_sut()
+    [sut, scraper_stub, _, _, _] = make_sut()
     spy = mocker.spy(scraper_stub, 'get_data')
     http_request = {
         'body': {
@@ -222,7 +222,7 @@ def test_scraper_called_with_correct_value(mocker: MockFixture):
 
 
 def test_get_actions_return_500_if_scraper_throws(mocker: MockFixture):
-    [sut, scraper_stub, _, _] = make_sut()
+    [sut, scraper_stub, _, _, _] = make_sut()
     spy = mocker.spy(scraper_stub, 'get_data')
     spy.side_effect = Exception()
     http_request = {
@@ -237,7 +237,7 @@ def test_get_actions_return_500_if_scraper_throws(mocker: MockFixture):
 
 
 def test_get_actions_return_if_html_parser_throws(mocker: MockFixture):
-    [sut, _, html_parser_stub, _] = make_sut()
+    [sut, _, html_parser_stub, _, _] = make_sut()
     spy = mocker.spy(html_parser_stub, 'parse_html')
     spy.side_effect = Exception()
     http_request = {
@@ -251,8 +251,23 @@ def test_get_actions_return_if_html_parser_throws(mocker: MockFixture):
     assert http_response['status_code'] == 500
 
 
+def test_get_actions_return_if_data_manipulation_throws(mocker: MockFixture):
+    [sut, _, _, data_manipulation_stub, _] = make_sut()
+    spy = mocker.spy(data_manipulation_stub, 'to_dict')
+    spy.side_effect = Exception()
+    http_request = {
+        'body': {
+            'url': 'https://fundamentus.com.br/resultado.php'
+        }
+    }
+
+    http_response = sut.handle(http_request)
+
+    assert http_response['status_code'] == 500
+
+
 def test_get_actions_return_500_if_add_actions_throws(mocker: MockFixture):
-    [sut, _, _, add_actions_stub] = make_sut()
+    [sut, _, _, _, add_actions_stub] = make_sut()
     spy = mocker.spy(add_actions_stub, 'add')
     spy.side_effect = Exception()
     http_request = {
@@ -267,7 +282,7 @@ def test_get_actions_return_500_if_add_actions_throws(mocker: MockFixture):
 
 
 def test_scraper_return_an_actions_on_success(mocker: MockFixture):
-    [sut, scraper_stub, _, _] = make_sut()
+    [sut, scraper_stub, _, _, _] = make_sut()
     spy = mocker.spy(scraper_stub, 'get_data')
     http_request = {
         'body': {
@@ -334,7 +349,7 @@ def test_scraper_return_an_actions_on_success(mocker: MockFixture):
 
 
 def test_add_actions_return_an_actions_on_success(mocker: MockFixture):
-    [sut, _, _, add_actions_stub] = make_sut()
+    [sut, _, _, _, add_actions_stub] = make_sut()
     spy = mocker.spy(add_actions_stub, 'add')
     http_request = {
         'body': {
