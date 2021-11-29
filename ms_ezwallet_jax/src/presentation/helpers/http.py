@@ -8,7 +8,16 @@ def ok(data: any) -> HttpResponse:
     }
 
 
-def server_error():
+def bad_request(exception_message: str) -> HttpResponse:
+    return {
+        'status_code': 400,
+        'body': {
+            'message': exception_message
+        }
+    }
+
+
+def server_error() -> HttpResponse:
     return {
         'status_code': 500,
         'body': Exception('Internal Server Error')
