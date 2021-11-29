@@ -20,3 +20,10 @@ def test_return_a_parsed_html_string_on_success(mocker: MockFixture):
 
     response = sut.parse_html(html_string)
     assert type(response) == str
+
+
+def test_should_call_html_parser_with_correct_values(mocker: MockFixture):
+    sut = make_sut()
+    spy = mocker.spy(sut, 'parse_html')
+    sut.parse_html(html_string)
+    spy.assert_called_with(html_string)
