@@ -10,6 +10,6 @@ class ActionsRepository(AddActionsRepository):
         saved_actions = []
         for action in data:
             saved_actions.append(actions_collection.find_and_modify(
-                {'Papel': action['Papel']}, {'$set': action}, upsert=True))
+                {'code': action['code']}, {'$set': action}, upsert=True))
 
         return saved_actions

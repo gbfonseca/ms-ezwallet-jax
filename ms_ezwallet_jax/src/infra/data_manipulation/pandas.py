@@ -6,4 +6,6 @@ import pandas as pd
 class DataManipulationAdapter(DataManipulation):
     def to_dict(self, data: str):
         df = pd.read_html(data)[0]
-        return df['Papel'].to_frame().to_dict('records')
+        renamed_df = pandas_helper.rename_stock(df)
+        codes_dict = renamed_df['code'].to_frame().to_dict('records')
+        return codes_dict
