@@ -13,14 +13,14 @@ def make_http_client() -> HttpClient:
     return HttpClientStub()
 
 
-def make_sut() -> GetActionDataByCodeController:
+def make_sut() -> [GetActionDataByCodeController, HttpClient]:
     http_client_stub = make_http_client()
     sut = GetActionDataByCodeController(http_client_stub)
-    return sut
+    return [sut, http_client_stub]
 
 
 def test_should_return_400_if_code_not_provided(mocker: MockFixture):
-    sut = make_sut()
+    [sut, _] = make_sut()
 
     http_request = {
         'params': {
@@ -33,7 +33,7 @@ def test_should_return_400_if_code_not_provided(mocker: MockFixture):
 
 
 def test_should_return_200_on_success(mocker: MockFixture):
-    sut = make_sut()
+    [sut, _] = make_sut()
 
     http_request = {
         'params': {
@@ -43,3 +43,17 @@ def test_should_return_200_on_success(mocker: MockFixture):
     response = sut.handle(http_request)
 
     assert response['status_code'] == 200
+
+
+def test_should_return_500_if_http_client_throws(mocker: MockFixture):
+    [sut, http_client_stub] = make_sut()
+    spy = mocker.spy(http_client_stub, 'get')
+    spy.side_effect = Exception()
+    http_request = {
+        'params': {
+            'code': 'bbas3.sa'
+        }
+    }
+    response = sut.handle(http_request)
+
+    assert response['status_code'] == 500
