@@ -7,5 +7,7 @@ class DataManipulationAdapter(DataManipulation):
     def to_dict(self, data: str):
         df = pd.read_html(data)[0]
         renamed_df = pandas_helper.rename_stock(df)
-        codes_dict = renamed_df['code'].to_frame().to_dict('records')
-        return codes_dict
+        codes = renamed_df['code'].to_frame()
+        codes_with_flag_dict = pandas_helper.insert_country_flag(
+            codes, 'SA').to_dict('records')
+        return codes_with_flag_dict
