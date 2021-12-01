@@ -22,6 +22,6 @@ class GetActionDataByCodeController(Controller):
             if(data['chart']['result'] is None):
                 return bad_request('Código inválido.')
 
-            return ok(data)
+            return ok(data['chart']['result'][0])
         except:
             return server_error()
