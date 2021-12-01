@@ -7,6 +7,9 @@ packages = [
   {include = 'ms_ezwallet_jax'},
 ]
 
+[tool.poetry.scripts]
+start = "ms_ezwallet_jax.src.main.main:start"
+
 [tool.poetry.dependencies]
 python = "^3.9"
 pandas = "^1.3.4"
