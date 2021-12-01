@@ -19,6 +19,9 @@ class GetActionDataByCodeController(Controller):
             data = self.http_client.get(
                 '{}/{}'.format(self.YF_URL, code))
 
+            if(data['chart']['result'] is None):
+                return bad_request('Código inválido.')
+
             return ok(data)
         except:
             return server_error()
