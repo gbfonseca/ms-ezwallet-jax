@@ -6,7 +6,7 @@ from ms_ezwallet_jax.src.infra.db.mongodb.repositories.actions.actions import Ac
 from ms_ezwallet_jax.src.data.usecases.db_add_actions_adapter import DbAddActionsAdapter
 
 
-def makeGetActions() -> GetActions:
+def make_get_actions() -> GetActions:
 
     beautifulsoup_adapter = BeautifulSoupAdapter()
     data_manipulation_adapter = DataManipulationAdapter()

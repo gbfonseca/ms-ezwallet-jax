@@ -8,7 +8,11 @@ class ActionsRepository(AddActionsRepository):
         actions_collection = mongo_helper.get_collection('actions')
         saved_actions = []
         for action in data:
-            saved_actions.append(actions_collection.find_one_and_update(
-                {'code': action['code']}, {'$set': action}, upsert=True))
+            act = actions_collection.find_one_and_update(
+                {'code': action['code']}, {'$set': action}, upsert=True)
+            saved_actions.append({
+                'id': str(act['_id']),
+                'code': act['code']
+            })
 
         return saved_actions

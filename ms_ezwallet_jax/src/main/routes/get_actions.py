@@ -4,23 +4,23 @@ from ..factories.get_actions import make_get_actions
 from ms_ezwallet_jax.src.main.config.configuration import configuration
 
 
-actions_router = APIRouter(
-    prefix="/action",
-    tags=["action"],
+get_actions_router = APIRouter(
+    prefix="/actions",
+    tags=["actions"],
 )
 
-
-@actions_router.get('/{code}')
-async def get_action_by_code(code: str):
+@get_actions_router.get('')
+async def get_actions():
     http_request = {
-        'params': {
-            'code': code
+        'body': {
+            'url': configuration['SCRAP_URL']
         }
     }
-    get_action_data_by_code = make_get_action_data_by_code()
-    response = get_action_data_by_code.handle(http_request)
+
+    get_actions = make_get_actions()
+    response = get_actions.handle(http_request)
+    
     if(response['status_code'] != 200):
         raise HTTPException(
             status_code=response['status_code'], detail=response['body'])
     return response
-
