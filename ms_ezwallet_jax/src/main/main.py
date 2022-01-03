@@ -21,7 +21,7 @@ def start():
     mongo_helper.connect(configuration['DATABASE_URL'])
     get_actions.handle(http_request)
     uvicorn.run("ms_ezwallet_jax.src.main.main:app",
-                host="0.0.0.0", port=8000, reload=True)
+                  reload=True)
 
 if __name__ == '__main__':
     start()

@@ -16,7 +16,7 @@ async def get_action_by_code(code: str):
     }
     get_action_data_by_code = make_get_action_data_by_code()
     response = get_action_data_by_code.handle(http_request)
-    if(response['status_code'] is not 200):
+    if(response['status_code'] != 200):
         raise HTTPException(
             status_code=response['status_code'], detail=response['body'])
     return response
