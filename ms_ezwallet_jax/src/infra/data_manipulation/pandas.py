@@ -5,9 +5,8 @@ import pandas as pd
 
 class DataManipulationAdapter(DataManipulation):
     def to_dict(self, data: str):
-        df = pd.read_html(data)[0]
-        renamed_df = pandas_helper.rename_stock(df)
-        codes = renamed_df['code'].to_frame()
+        df = pd.read_csv('./acoes.csv', encoding='ISO-8859-1',  skiprows=2, delimiter=';')
+        new_df = pd.DataFrame(df['Empresa'].values, columns=['code'])
         codes_with_flag_dict = pandas_helper.insert_country_flag(
-            codes, 'SA').to_dict('records')
+            new_df, 'SA').to_dict('records')
         return codes_with_flag_dict

@@ -11,5 +11,3 @@ http_request = {
 }
 
 mongo_helper.connect(configuration['DATABASE_URL'])
-
-get_actions.handle(http_request)
