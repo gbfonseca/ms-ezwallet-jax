@@ -15,7 +15,7 @@ class MongoHelper():
 
     def get_collection(self, name: str) -> collection.Collection:
         return self.client.get_database('jax').get_collection(name)
-    
+
     def parse(data):
         print(data)
         return json.loads(json_util.dumps(data))
