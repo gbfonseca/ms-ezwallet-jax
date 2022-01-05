@@ -18,7 +18,7 @@ class ActionsRepository(AddActionsRepository):
         actions = actions_collection.find()
         for document in actions:
             saved_actions.append({
-                'id': document['_id'],
+                'id': str(document['_id']),
                 'code': document['code']
             })
         return saved_actions
