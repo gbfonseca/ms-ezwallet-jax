@@ -10,8 +10,8 @@ class DataManipulationAdapter(DataManipulation):
         new_df = pd.DataFrame(df['Empresa'].values, columns=['code'])
         new_df = pandas_helper.insert_country_flag(
             new_df, 'SA')
-        new_df['type'] = df['Código'].values
-        new_df['type'] = new_df['type'].str.split(',')
+        new_df['indexes'] = df['Código'].values
+        new_df['indexes'] = new_df['indexes'].str.split(',')
         new_df = new_df.sort_values(by='code', ascending=True)
         stocks = new_df.to_dict('records')
         return stocks
